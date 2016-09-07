@@ -14,7 +14,7 @@ var schema = Joi.array().min(1).items(Joi.object().keys(
     payload: Joi.string().optional().description('expression to evaluate for HTTP payload'),
     addressP: Joi.boolean().optional().default(false).description('address required'),
     textP: Joi.boolean().optional().default(false).description('text result'),
-    iso3166: Joi.string().required().description('expression to evaluate to resolve to satoshis'),
+    iso3166: Joi.string().required().description('expression to evaluate to resolve to an ISO3166 two-character code'),
     description: Joi.string().optional().description('a brief annotation')
   }
 ))
@@ -60,6 +60,16 @@ var iso3166Schema = Joi.string().regex(/^[A-Z][A-Z]/i)
 
 var getGeoIP = function (address, options, callback) {
   var entries, validity
+
+  if (typeof address === 'function') {
+    callback = address
+    options = {}
+    address = ''
+  } else if (typeof address === 'object') {
+    callback = options
+    options = address
+    address = ''
+  }
 
   if (typeof address === 'undefined') address = ''
   else if (typeof address !== 'string') throw new Error('invalid address')

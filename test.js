@@ -1,10 +1,5 @@
-var addresses = [
-  ''
-]
-addresses.forEach(function (address) {
-  require('.').getGeoIP(address, { allP: true, debugP: true, verboseP: true, timeout: 10000 }, function (err, provider, result) {
-    if (err) return console.log('address=' + address + ' provider=' + (provider || {}).name + ' ' + err.toString())
+require('.').getGeoIP({ allP: true, verboseP: true, timeout: 10000 }, function (err, provider, result) {
+  if (err) return console.log('provider=' + (provider || {}).name + ' ' + err.toString() + '\n')
 
-    console.log('address=' + address + ' provider=' + provider.name + ' result=' + result)
-  })
+  console.log('provider=' + provider.name + ' result=' + result + '\n')
 })

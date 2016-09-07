@@ -5,19 +5,18 @@ Find the geoip information for an IP address, do so using a list of geoip report
 
 ### Get the Country Code for your IP address
 
-        var getBalance = require('ledger-geoip').getBalance
+        var getGeoIP = require('ledger-geoip').getGeoIP
 
-        var address = '3...'
-        getBalance(address, function (err, provider, result) {
+        getGeoIP(function (err, provider, result) {
           if (err) return console.log((provider ? (provider.name + ': ') : '') + err.toString())
 
-          console.log('address=' + address + ' provider=' + provider.name + ' satoshis=' + result)
+          console.log('provider=' + provider.name + ' satoshis=' + result)
         })
 
 This method works by using a modified [round-robin](https://en.wikipedia.org/wiki/Round-robin_DNS) algorithm with a simple
 scoring system:
 
-- each time that `getBalance` is called, it shuffles the list of providers and then orders them according to each provider's score
+- each time that `getGeoIP` is called, it shuffles the list of providers and then orders them according to each provider's score
 
 - each provider is tried in order and the first (successful) result is returned
 
@@ -42,7 +41,9 @@ Each of these properties is mandatory:
                                                , site     : 'https://example.com/'
                                                , server   : 'https://api.example.com'
                                                , path     : '"/v1/address" + address'
-                                               , satoshis : 'body.confirmed_satoshis'
+                                               , addressP : true
+                                               , textP    : false
+                                               , iso3166  : 'body.country_code'
                                                })
 
 The default value for the `method` is `"GET"`;
@@ -50,11 +51,21 @@ The default value for the `method` is `"GET"`;
 
 Both the mandatory `path` property and the optional `payload` property are evaluated with this context:
 
-        { address: '3...' }
+        { address: '...' }
 
-The mandatory `satoshis` property is evaluated with this context:
+where `address` is either the first argument to the `getGeoIP` function,
+or is determined by calling `whatIsMyIP`.
+The context is initialize _only_ if the optional `addressP` property is set to `true`.
+
+The mandatory `iso3166` property is evaluated with this context:
 
         { body: JSON.parse(HTTP_response_body) }
+
+or
+
+        { lines: HTTP_response_body.split('\n') }
+
+depending on whether the optional `textP` property is present and set to `true`.
 
 ## Finally...
 
