@@ -1,0 +1,37 @@
+{
+  "name": "ledger-geoip",
+  "version": "0.8.46",
+  "description": "Find the geoip information for an IP address, do so using a list of geoip reporters that is weighted over time.",
+  "main": "index.js",
+  "scripts": {
+    "lint": "gulp lint",
+    "test": "npm run test-security",
+    "test-security": "nsp check"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/brave/ledger-geoip"
+  },
+  "author": "Brave Developers <support@brave.com>",
+  "license": "MPL-2.0",
+  "bugs": {
+    "url": "https://github.com/brave/ledger-geoip/issues"
+  },
+  "homepage": "https://github.com/brave/ledger-geoip",
+  "dependencies": {
+    "data-expression": "1.0.0",
+    "joi": "^9.0.0-2",
+    "underscore": "1.8.3"
+  },
+  "engines": {
+    "node": "5.6.0",
+    "npm": "3.6.0"
+  },
+  "devDependencies": {
+    "del": "^2.0.2",
+    "gulp": "^3.9.0",
+    "gulp-standard": "^5.2.2",
+    "nsp": "^2.2.0",
+    "run-sequence": "^1.1.0"
+  }
+}
