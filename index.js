@@ -25,7 +25,7 @@ var providers = [
     server: 'https://freegeoip.net',
     path: "'/json/' + address",
     iso3166: 'body.country_code'
-  },
+  }
 
 /*
   { name: 'hackertarget.com',
@@ -36,7 +36,6 @@ var providers = [
     textP: true,
     iso3166: '(function () { var kv = {}; lines.forEach(function (p) { kv[p.split(":")[0]] = p.split(":")[1] }); return kv.Country.trim() })()'
   },
- */
 
   { name: 'ip-api.com',
     site: 'http://ip-api.com',
@@ -51,6 +50,7 @@ var providers = [
     path: "'/json/' + address",
     iso3166: 'body.country'
   }
+ */
 ]
 
 var addrSchema = Joi.alternatives().try(Joi.string().ip(), Joi.string().empty(''))
