@@ -1,6 +1,6 @@
 {
   "name": "ledger-geoip",
-  "version": "0.8.46",
+  "version": "0.8.70",
   "description": "Find the geoip information for an IP address, do so using a list of geoip reporters that is weighted over time.",
   "main": "index.js",
   "scripts": {
@@ -19,6 +19,8 @@
   },
   "homepage": "https://github.com/brave/ledger-geoip",
   "dependencies": {
+    "country-data": "0.0.29",
+    "country-reverse-geocoding": "0.2.1",
     "data-expression": "1.0.0",
     "joi": "^9.0.0-2",
     "underscore": "1.8.3"

@@ -1,3 +1,5 @@
+var cd = require('country-data')
+var crg = require('country-reverse-geocoding').country_reverse_geocoding().get_country
 var datax = require('data-expression')
 var http = require('http')
 var https = require('https')
@@ -25,9 +27,10 @@ var providers = [
     server: 'https://freegeoip.net',
     path: "'/json/' + address",
     iso3166: 'body.country_code'
-  }
+  },
 
-/*
+/* waiting for https access
+
   { name: 'hackertarget.com',
     site: 'https://hackertarget.com/geoip-ip-location-lookup/',
     server: 'http://api.hackertarget.com',
@@ -51,6 +54,13 @@ var providers = [
     iso3166: 'body.country'
   }
  */
+
+  { name: 'mozilla.com',
+    site: 'https://location.services.mozilla.com/',
+    server: 'https://location.services.mozilla.com',
+    path: "'/v1/geolocate?key=be222ff0-6dc7-41f2-b8b9-4f5286649c45'",
+    iso3166: 'rg(body.location.lat, body.location.lng)'
+  }
 ]
 
 var addrSchema = Joi.alternatives().try(Joi.string().ip(), Joi.string().empty(''))
@@ -141,12 +151,23 @@ var getGeoIP = function (address, options, callback) {
     options.roundtrip(params, underscore.extend(options, { rawP: provider.textP }), function (err, response, payload) {
       var result
 
+      var rg = function (lat, lng) {
+        var country
+        var entry = crg(lat, lng)
+
+        if (!entry) return
+
+        country = cd.countries[entry.code]
+        if (country) return country.alpha2
+      }
+
       if (err) {
         provider.score = (err.toString() === 'Error: timeout') ? -500  // timeout
                            : (typeof err.code !== 'undefined') ? -350  // DNS, etc.
                            : -750                                      // HTTP response error
       } else {
-        result = datax.evaluate(provider.iso3166, provider.textP ? { lines: payload.split('\n') } : { body: payload })
+        result = datax.evaluate(provider.iso3166, provider.textP
+                                  ? { lines: payload.split('\n') } : { body: payload, rg: rg })
         validity = Joi.validate(result, iso3166Schema)
         if (!validity.error) {
           provider.score = Math.max(5000 - (underscore.now() - now), -250)
