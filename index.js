@@ -58,8 +58,8 @@ var providers = [
   { name: 'mozilla.com',
     site: 'https://location.services.mozilla.com/',
     server: 'https://location.services.mozilla.com',
-    path: "'/v1/geolocate?key=be222ff0-6dc7-41f2-b8b9-4f5286649c45'",
-    iso3166: 'rg(body.location.lat, body.location.lng)'
+    path: "'/v1/country?key=be222ff0-6dc7-41f2-b8b9-4f5286649c45'",
+    iso3166: 'body.country_code'
   }
 ]
 
