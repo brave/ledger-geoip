@@ -44,16 +44,18 @@ var providers = [
     site: 'http://ip-api.com',
     server: 'http://ip-api.com',
     path: "'/json/' + address",
+    addressP: true,
     iso3166: 'body.countryCode'
   },
+ */
 
   { name: 'ipinfo.io',
-    site: 'http://ipinfo.io',
-    server: 'http://ipinfo.io',
-    path: "'/json/' + address",
-    iso3166: 'body.country'
-  }
- */
+    site: 'https://ipinfo.io',
+    server: 'https://ipinfo.io',
+    path: "'/country'",
+    textP: true,
+    iso3166: 'lines[0]'
+  },
 
   { name: 'mozilla.com',
     site: 'https://location.services.mozilla.com/',
