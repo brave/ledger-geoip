@@ -49,6 +49,13 @@ var providers = [
   },
  */
 
+/* JSON response requires:
+
+    path: "'/' + address + '/json'",
+    addressP: true,
+    textP: false,
+    iso3166: 'body.country'
+ */
   { name: 'ipinfo.io',
     site: 'https://ipinfo.io',
     server: 'https://ipinfo.io',
