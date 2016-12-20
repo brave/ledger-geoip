@@ -1,6 +1,6 @@
 {
   "name": "ledger-geoip",
-  "version": "0.8.73",
+  "version": "0.8.74",
   "description": "Find the geoip information for an IP address, do so using a list of geoip reporters that is weighted over time.",
   "main": "index.js",
   "scripts": {

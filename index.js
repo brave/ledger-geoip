@@ -175,8 +175,8 @@ var getGeoIP = function (address, options, callback) {
                            : (typeof err.code !== 'undefined') ? -350  // DNS, etc.
                            : -750                                      // HTTP response error
       } else {
-        result = datax.evaluate(provider.iso3166, provider.textP
-                                  ? { lines: payload.split('\n') } : { body: payload, rg: rg })
+        result = datax.evaluate(provider.iso3166,
+                                  provider.textP ? { lines: payload.split('\n') } : { body: payload, rg: rg })
         validity = Joi.validate(result, iso3166Schema)
         if (!validity.error) {
           provider.score = Math.max(5000 - (underscore.now() - now), -250)
