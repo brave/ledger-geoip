@@ -191,7 +191,7 @@ var getGeoIP = function (address, options, callback) {
         provider.score = -1001
       }
 
-      callback(err, provider)
+      callback(new GeoIpError(err, provider.name), provider)
       f(i)
     })
   }
@@ -208,7 +208,7 @@ var whatIsMyIP = function (options, callback) {
   if (typeof options.roundtrip !== 'function') throw new Error('invalid roundtrip option (must be a function)')
 
   options.roundtrip({ server: 'http://bot.whatismyipaddress.com' }, options, function (err, response, payload) {
-    if (err) return callback(err)
+    if (err) callback(new GeoIpError(err, 'http://bot.whatismyipaddress.com'))
 
     callback(null, payload)
   })
@@ -245,7 +245,7 @@ var roundTrip = function (params, options, callback) {
       try {
         payload = (options.rawP) ? body : (response.statusCode !== 204) ? JSON.parse(body) : null
       } catch (err) {
-        return callback(err)
+        return callback(new GeoIpError(err, url.format(params)))
       }
 
       try {
@@ -255,7 +255,7 @@ var roundTrip = function (params, options, callback) {
       }
     }).setEncoding('utf8')
   }).on('error', function (err) {
-    callback(err)
+    callback(new GeoIpError(err, url.format(params)))
   }).on('timeout', function () {
     timeoutP = true
     callback(new Error('timeout'))
@@ -269,6 +269,13 @@ var roundTrip = function (params, options, callback) {
   console.log('<<< ' + params.method + ' ' + params.protocol + '//' + params.hostname + (params.path || ''))
   console.log('<<<')
   if (params.payload) console.log('<<< ' + JSON.stringify(params.payload, null, 2).split('\n').join('\n<<< '))
+}
+
+var GeoIpError = function (err, name) {
+  if (!(this instanceof GeoIpError)) return GeoIpError(err, name)
+
+  underscore.extend(this, underscore.pick(err, [ 'columnNumber', 'fileName', 'lineNumber', 'name', 'stack' ]))
+  this.message = name + ': ' + underscore.message
 }
 
 module.exports = {
