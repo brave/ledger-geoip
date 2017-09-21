@@ -1,6 +1,6 @@
 {
   "name": "ledger-geoip",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "description": "Find the geoip information for an IP address, do so using a list of geoip reporters that is weighted over time.",
   "main": "index.js",
   "scripts": {
@@ -22,18 +22,23 @@
     "country-data": "0.0.29",
     "country-reverse-geocoding": "0.2.1",
     "data-expression": "1.0.0",
-    "joi": "^9.0.0-2",
+    "joi": "^11.0.3",
     "underscore": "1.8.3"
   },
   "engines": {
-    "node": ">= 7.0.0"
+    "node": "7.10.1",
+    "npm": "4.2.0"
   },
   "devDependencies": {
-    "del": "^2.0.2",
+    "babel-eslint": "^7.2.1",
+    "del": "^3.0.0",
     "gulp": "^3.9.0",
     "gulp-standard": "^5.2.2",
     "nsp": "^2.2.0",
-    "run-sequence": "^1.1.0",
-    "standard": "8.1.0"
+    "run-sequence": "^2.0.0",
+    "standard": "10.0.2"
+  },
+  "standard": {
+    "parser": "babel-eslint"
   }
 }
